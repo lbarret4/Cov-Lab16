@@ -11,18 +11,17 @@ $( document ).ready(function() {
     'circus','gym','school','park'];
  
    
-     //Adds into the headers array, a single  HTML h3 header string with its id being its index and is formated as Accusation i( i = some number ) 
+    //Adds into the headers array, a single  HTML h3 header string and is formated as Accusation i( i = some number ) 
+    //Then,appends indiviual headers to parent element's (div) class headers-holder
+   //Lastly, creates a single event listener to call displayAccuse with the index of the header element if the clicked happend on an h3 element 
     for ( var i = 0; i < 100; i++ ) {
-        headers.push( `<h3 id='${i}'>Accusation ${i+1} </h3>`);
+        headers.push( `<h3>Accusation ${i+1} </h3>`);
+        headers[i]=$(headers[i]).appendTo('.headers-holder');
+    
+        headers[i].on( "click",displayAccuse(i));
     }
 
-     //Creates a single event listener to call displayAccuse with the index of the header element if the clicked happend on an h3 element 
-    $('.headers-holder ').on( "click", "h3", function() {
-        displayAccuse(Number(this.id));
-    });
-
-    //Combines headers into a single HTML string and appends to parent element's (div) class headers-holder
-    $(headers.join( "" )).appendTo('.headers-holder');
+     
     
     //Creates Accusation statements for a particular index and returns them as an alert 
     function displayAccuse(index) {
@@ -30,7 +29,9 @@ $( document ).ready(function() {
         var weaponName= weapons[index%20];
         var locationName=locations[index%10];
         var accuStatement =`Accusation ${index+1}: I accuse ${friendName}, with the ${weaponName} in the ${locationName}!`;
-        return alert(accuStatement);
+        return function(){
+           alert(accuStatement);
+        }
     }
 
 
